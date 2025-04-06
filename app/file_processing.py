@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, status
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from database import SessionLocal, User, FileMetadata
@@ -30,7 +30,7 @@ def upload_file(file: UploadFile = File(...), username: str = "", password: str 
     user = db.query(User).filter(User.username == username).first()
 
     if not user or not pwd_context.verify(password, user.hashed_password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     file_id = str(uuid.uuid4())
     output_filename = f"{file_id}.parquet"
