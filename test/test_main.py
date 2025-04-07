@@ -1,7 +1,8 @@
 import pytest
 from httpx import AsyncClient
 from fastapi import status
-#from app.main import app  # Or from your FastAPI entrypoint
+
+# To run the tests: pytest test_main.py
 
 @pytest.mark.asyncio
 async def test_register_and_upload():
